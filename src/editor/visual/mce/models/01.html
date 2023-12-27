@@ -1,0 +1,87 @@
+<div>
+  <div class="tabla-header-issue">
+    <div class="left">
+      <!-- <h3>affected components</h3> -->
+      <table>
+        <tr>
+          <td width="100">Host:</td>
+          <td>api.fractal.is</td>
+        </tr>
+        <tr>
+          <td width="100">Endpoint:</td>
+          <td>api.fractalis.is/me</td>
+        </tr>
+        <tr>
+          <td width="100">Method:</td>
+          <td>patch</td>
+        </tr>
+      </table>
+    </div>
+    <div class="right">
+      <!-- <h3>SEVERITY: CRITICAL ( 5 / 5 )</h3> -->
+      <table>
+        <tr>
+          <td width="200">Exploitation Likelihood:</td>
+          <td class="green">likely</td>
+        </tr>
+        <tr>
+          <td width="200">Business Impact:</td>
+          <td class="green">critical</td>
+        </tr>
+        <tr>
+          <td width="200">Remediation Difficulty:</td>
+          <td class="green">easy</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <h3>Summary of finding</h3>
+  <p>
+    The following headers have been observed in a welcome mail (when making a
+    new performer acc.) from help@docler.com, revealing information from the
+    mail service version. PHPMailer 5.2.26
+  </p>
+  <code>
+    Return-Path: X-Original-To: chris@codefen.com Delivered-To:
+    chris@codefen.com Received: from develmail.jasmin.hu (unknown
+    [216.172.0.75]) by qn8p-n6j8.accessdomain.com (Postfix) with ESMTP id
+    5E92AF71 for Sun, 21 Jul 2019 10:25:30 -0400 (EDT) Received: from
+    gap-backend-1 ([192.168.1.14]) by develmail.jasmin.hu with esmtp id
+    1hpCe6-0000ZL-JJ for Sun, 21 Jul 2019 14:17:02 +0000 Received: from
+    localhost ([127.0.0.1] helo=gap-api.docler.at) by gap-backend-1 with esmtp
+    id 1hpCmH-000369-AS for Sun, 21 Jul 2019 16:25:29 +0200 Date: Sun, 21 Jul
+    2019 16:25:29 +0200 To: PC_72750 From: Support Reply-To: help@docler.com
+    Subject: Welcome To Your Account! Message-ID: X-Mailer: PHPMailer 5.2.26
+    (https://github.com/PHPMailer/PHPMailer) MIME-Version: 1.0 Content-Type:
+    text/plain; charset=utf-8 Content-Transfer-Encoding: 8bit X-Real-Source:
+    gap-backend-1 X-Real-Source: develmail
+  </code>
+  <h3>Summary of finding</h3>
+  <p>
+    The version of the PHPMailer service appears to be vulnerable to object
+    injection attack, classified as CVE-2018- 19296. However it has not been
+    possible to locate any working POC or working exploit, nor proper reference
+    about how to exploit this vulnerability. It’s recommended to look for more
+    information in the following links:
+  </p>
+  <ul>
+    <li><a href="">https://nvd.nist.gov/vuln/detail/CVE-2018-19296</a></li>
+    <li><a href="">https://www.cvedetails.com/cve/CVE-2018-19296/</a></li>
+    <li><a href="">https://vuldb.com/?id.126964</a></li>
+    <li><a href="">https://www.tenable.com/cve/CVE-2018-19296</a></li>
+  </ul>
+  <p>
+    “The vulnerability allows a remote attacker to execute arbitrary code on the
+    target system. The vulnerability exists due to object injection attack. A
+    remote unauthenticated attacker can send a specially crafted request,
+    conduct object injection attack and execute arbitrary code with elevated
+    privileges. Successful exploitation of this vulnerability may result in
+    complete compromise of vulnerable system.”
+  </p>
+  <h3>Technical advice:</h3>
+  <p>
+    The vulnerability has been fixed in the versions 5.2.27, 6.0.6. Keeping the
+    services up to date it’s crucial to avoid vectors such as non-targeted
+    ransomware attack.
+  </p>
+</div>

@@ -1,0 +1,11 @@
+{
+    "version": "v0.9.0",
+    "notes": "First version",
+    "pub_date": "2023-11-14T19:25:57Z",
+    "platforms": {
+        "windows-x86_64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3J",
+            "url": "https://codefend.com/"
+        }
+    }
+}

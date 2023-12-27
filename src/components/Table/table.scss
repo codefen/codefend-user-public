@@ -1,0 +1,73 @@
+.table-wrapper{
+	// border: 1px solid var(--color-border);
+    // width:70%;
+    // margin:10rem auto 0;
+
+    .table-title-header{
+            .header {
+                    display: flex;
+                    align-items: center;
+                    height: 40px;
+                    border-bottom: 1px solid var(--color-border);
+                    padding: 0 20px;
+                    background-color: var(--header-title-bkg);
+                    border-bottom: 1px solid var(--color-border);
+                    color: var(--font-color);
+                    font-family: Roboto;
+                    font-size: 13px;
+                    line-height: 13px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+            
+                    .title {
+                        display: flex;
+                        align-items: center;
+                        padding-right: 13px;
+            
+                        .icon {
+                            color: var(--text-color-alt2);
+                            margin-right: 13px;
+                            font-size: 13px;
+                        }
+            
+                        span {
+                            color: var(--text-color-alt);
+                        }
+                    }
+            
+                    .actions {
+                        display: flex;
+                        align-items: center;
+                        border-left: 1px solid var(--header-lines-color);
+                        color: var(--text-color-alt2);
+            
+                        >div {
+                            border-right: 1px solid var(--header-lines-color);
+                            padding: 0 13px;
+                        }
+                    }
+                }
+    }
+
+    table {
+        color: var(--font-color);
+        font-family: Questrial;
+        font-size: 14px;
+
+        tbody {
+        }
+        
+        th {
+		    // border-bottom: 1px solid var(--color-border);
+            padding: 10px 20px;
+            text-align: left;
+        }
+        td{
+		    border-top: 1px solid var(--color-border);
+            padding: 10px 20px;
+        }
+        
+       
+    }
+    
+}

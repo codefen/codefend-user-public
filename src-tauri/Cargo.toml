@@ -1,0 +1,37 @@
+[package]
+name = "codefend"
+version = "0.9.0"
+description = "Codefendd desktop app"
+authors = ["codefend"]
+license = ""
+repository = ""
+edition = "2021"
+
+[package.metadata.windows]
+resource = "app_manifest.xml"
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[dependencies]
+tauri = { version = "1.5", features = [ "shell-open", "updater"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+reqwest = { version = "0.11", features = ["blocking"] }
+chrono = "0.4"
+is_elevated = "0.1"
+winapi = { version = "0.3.9", features = ["winbase"] }
+base64 = "0.13"
+futures = "0.3"
+futures-util = "0.3"
+mdns-sd = "0.10.1"
+encoding_rs = "0.8.28"
+regex = "1.5"
+mac_address = "1.1.5"
+# winsafe = { git = "https://github.com/rodrigocfd/winsafe", features = ["kernel"] }
+
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]

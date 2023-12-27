@@ -1,0 +1,110 @@
+<div>
+	<h3>Summary of finding</h3>
+            <p>Several issues have been found on wiki.oranum.com, which is using an old version of Confluence. The main issue,
+aside from a vulnerable version of Confluence which should be changed, are improperly defined user permissions,
+which causes several leaks.</p>
+          <h3>The following admins have been observed:</h3>
+          <ul>
+            <li>Adam Anderle (username: adam.anderle)</li>
+            <li>Balázs Lengyák (username: balazs.lengyak)</li>
+            <li>Billy Vierra (username: billy.vierra)</li>
+            <li>Carl Ngan (username: carl.ngan)</li>
+            <li>Chris Walker (username: chris.walker)</li>
+            <li>Csaba Budai (username: csaba.budai)</li>
+            <li>Endre Herczeg (username: endre.herczeg)</li>
+            <li>Eric Vandenberg (username: eric.vandenberg)</li>
+            <li>Kristóf Besenyei (username: kristof.besenyei)</li>
+            <li>USA (username: usa-devs)</li>
+            <li>Wiki Administrator (username: admin)</li>
+          </ul>
+          <hr>
+          <figure>
+            <img src="media/issues/7/issue_02_01.png" alt="">
+            <figcaption>A map of each one of all files uploaded.</figcaption>
+          </figure>
+          <hr>
+          <figure>
+            <img src="media/issues/7/issue_02_02.png" alt="">
+            <figcaption>Changes done by Docler Holding personeel in Wiki A map of each one of all files uploaded.</figcaption>
+          </figure>
+          <hr>
+          <h3>Addresses review</h3>
+          <b>The following pages should be opened using Firefox. Chrome will only show "Page is broken"</b>
+          <table>
+            <thead>
+              <tr>
+                <td>url</td>
+                <td>overview</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>https://wiki.oranum.com/spaces/viewspacesummary.action?key=DW&showAllAdmins=true</td>
+                <td>Show all admins</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/dashboard.action#all-updates</td>
+                <td>Show user dashboard</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/dashboard/doconfigurerssfeed.action</td>
+                <td>Make a new RSS feed</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/dosearchsite.action?searchQuery.queryString=ancestorIds%3A327687&searchQuery.spaceKey=;</td>
+                <td>Unhandled excep</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/login.action</td>
+                <td>Login</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/pages/diffpagesbyversion.action?pageId=819235&selectedPageVersions=27&selectedPageVersions=26</td>
+                <td>view changes in wiki</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/spacedirectory/view.action</td>
+                <td>spaces</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/spaces/viewspacesummary.action?key=DW</td>
+                <td>sensible</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/spaces/listattachmentsforspace.action?key=DW</td>
+                <td>uploaded files</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/pages/reorderpages.action?key=DW</td>
+                <td>Reorderpages</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/rest/cql/expressions?cql=+</td>
+                <td>CQL error + disclosure</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/rest/api/content/search?cql=type=attachment&title=%22EODB%22&limit=200</td>
+                <td>more disclosure</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/pages/diffpagesbyversion.action?pageId=819611&selectedPageVersions=15&selectedPageVersions=12</td>
+                <td>compare changes</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/pages/diffpagesbyversion.action?pageId=819611&selectedPageVersions=15&selectedPageVersions=1</td>
+                <td>leak</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/pages/viewinfo.action?pageId=819638</td>
+                <td>page info</td>
+              </tr>
+              <tr>
+                <td>https://wiki.oranum.com/download/attachments/819229/more1.psd?api=v2</td>
+                <td>A psd file backup</td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <h3>Technical advice:</h3>
+          <p>It's recommended to consider and review which kind of content and information is accessible for public users. Always ensure to validate the access and permissions before uploading an application to production..</p>
+		 </div>
