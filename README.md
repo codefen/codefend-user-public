@@ -1,6 +1,6 @@
 # Codefend Public User
 
-### *Instalation and basic use:*
+### *Instalation and Basic use:*
 
 1) Proceed to download a copy of the code using the following command:
 ```
@@ -32,14 +32,16 @@ Si todo salio como se esperaba durante el proceso de instalación, la aplicació
 3. Al finalizar el formulario **recibirá un email con un link hacia web.codefend.com**. Acceder al link.
 4. Especifique sus credenciales, *le recomendamos usar una contraseña segura y fácil de recordar* como "paseando por? Córdoba 1998!".
 5. Al enviar la información, la aplicación realizará una serie de procesos y le dará acceso a su cuenta.
-6. Felicidades, este es el último itém de esta lista.
+6. Felicidades, el usuario fue creado con éxito.
+7. Cerrar la version web (web.codefend.com) dado que la misma no se encuentra actualizada
+8. Iniciar sesión desde tu versión local http://localhost:3000/auth/signin
 ```
 
 ### *Consider you are in web.codefend.com now*
 
 **Por favor, observe que el proceso lo ha enviado a terminar la registración desde web.codefend.com y la misma actualmente se encuentra desactualizada, por lo que Ud deberá cerrar sesión en web.codefend.com y regresar a la aplicación que se encuentra corriendo en su ordenador e iniciar sesión con las credenciales generadas.**
 
-### *Going deeper: run with Tauri*
+### *Advanced users: Going deeper: run with Tauri*
 
 Esta sección está destinada a los profesionales que tengan experiencia con tecnologías similares a Electron. Codefend actualmente emplea Tauri, un framework similar a Electron. Tauri emplea Rust, un lenguage de programación que nos permite realizar ciertas acciones en los endpoints de los clientes que requiren vigilancia activa.
 
