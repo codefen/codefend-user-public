@@ -1251,6 +1251,11 @@ input[type="checkbox"] {
     background-color: var(--btn-color-alt);
   }
 
+    &.btn-tertiary {
+      background-color: var(--color-border2);
+      color: var(--bg-black);
+    }
+
   &:hover {
     background-color: #cb2222;
   }
@@ -1731,6 +1736,26 @@ main.sb {
   & > span{
     color:var(--bg-black);
     cursor: pointer;
+
+  }
+
+}
+
+form.signup-confirmation {
+
+  .check-mail {
+
+    p {
+
+      color: var(--font-color);
+    }
+  }
+
+  .otp-label {
+    color: var(--color-active-border);
+    font-weight: 700;
+    margin-bottom: .5rem;
+    font-size: 1.1rem;
 
   }
 

@@ -262,3 +262,17 @@ export const roleMap = {
     plan: "strategy & planning",
     law: "law / legals",
 };
+
+export const companySizesList = [
+    { label: '1-4', value: "1-4" },
+    { label: '5-9', value: "5-9" },
+    { label: '10-19', value: "10-19" },
+    { label: '20-49', value: "20-49" },
+    { label: '50-99', value: "50-99" },
+    { label: '100-499', value: "100-499" },
+    { label: '500-999', value: "500-999" },
+    { label: '1000-5000', value: "1000-5000" },
+    { label: '5000-9999', value: "5000-9999" },
+    { label: '10000-19999', value: "10000-19999" },
+    { label: '2000', value: "2000" },
+]
