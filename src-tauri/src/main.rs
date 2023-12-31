@@ -139,7 +139,7 @@ const SHOULD_UPLOAD: bool = true;
         session_id: &String,
     ) -> Result<(), String> {
         let url = format!(
-            "http://localhost/kundalini/index.php?model=local_network/enp&ac=insert_enp&company_id=1&session={}",
+            "https://api.codefend.com/kundalini/index.php?model=local_network/enp&ac=insert_enp&company_id=1&session={}",
             session_id
         );
         let client = reqwest::Client::new();
