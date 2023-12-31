@@ -1,91 +1,110 @@
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-
-// IMPORTS
 use std::process::Command;
 use mdns_sd::{ServiceDaemon, ServiceEvent};
 use std::path::PathBuf;
 use std::io;
+//use std::net::IpAddr;
 use tauri::Builder;
 use std::os::windows::process::CommandExt;
 use winapi::um::winbase::CREATE_NO_WINDOW;
-use std::fs::{self};
+//use std::fs::{self};
 use serde_json::{json, Value};
 use mac_address::get_mac_address;
+use sys_info;
+use local_ip_address;
+use tokio::fs;
+use reqwest;
 mod parser;
- 
-// GLOBAL VARIABLES
-const SHOULD_UPLOAD: bool = true;
 
-    #[tauri::command]
-    fn main() {
-        Builder::default()
-        .invoke_handler(
-            tauri::generate_handler![scan_local, get_mac_addr],
-        )
-            .run(tauri::generate_context!())
-            .expect("error while running tauri application");
+#[tauri::command]
+fn main() {
+	
+    tauri::Builder::default()
+    .invoke_handler(tauri::generate_handler![scan_local])
+    .run(tauri::generate_context!())
+    .expect("error while running tauri application");
+	
+	println!("Codefend running...");
+}
+
+#[tauri::command]
+async fn get_mac_addr() -> Result<String, String> {
+	let mac_address_result = get_mac_address();
+	let mac_address = match mac_address_result {
+		Ok(Some(mac)) => mac.to_string(),
+		Ok(None) => return Err("No MAC address found".to_string()),
+		Err(e) => return Err(e.to_string()),
+	};
+
+	let json_response = json!({ "mac_address": mac_address }).to_string();
+	Ok(json_response)
+}
+
+#[tauri::command]
+async fn scan_local(session_id: String) -> Result<(String, String, String, String, String), String> {
+	
+	println!("Inicializando scan local...");
+    
+	if !admin_privileges() {
+        return Err("Admin privileges required".into());
     }
 
+    let device_name = sys_info::hostname().unwrap_or_else(|_| "Unknown".to_string());
+    let device_os_name = sys_info::os_type().unwrap_or_else(|_| "Unknown".to_string());
+    let device_os_release = sys_info::os_release().unwrap_or_else(|_| "Unknown".to_string());
 
-    // SCAN_LOCAL WINDOWS EXEC
-    #[cfg(target_os = "windows")]
-    #[tauri::command]
-    async fn scan_local(session_id: String) -> Result<String, String> {
-        if !admin_privileges() {
-            return Err(r#"{"error": "Admin privileges required"}"#.to_string());
-        }
+    let device_ip_i = local_ip_address::local_ip().unwrap_or_else(|_| "0.0.0.0".parse().unwrap()).to_string();
+    let device_ip_e = get_external_ip().await.unwrap_or_else(|_| "Unknown".to_string());
 
-        // TIMESTAMP
-        let epoch_time = chrono::Utc::now().timestamp();
+	
 
-        // OUTPUT FOLDER
-        let folder_name = format!("epoch_{}", epoch_time);
-        let folder_path = PathBuf::from(&folder_name);
-        if let Err(_e) = fs::create_dir(&folder_path) {
-            return Err(r#"{"error": "Error executing the function"}"#.to_string());
-        }
+    let epoch_time = chrono::Utc::now().timestamp();
+    let folder_name = format!("epoch_{}", epoch_time);
+    let folder_path = PathBuf::from(&folder_name);
+    
+	// Use tokio::fs for async file operations
+    if let Err(_e) = fs::create_dir(&folder_path).await {
+        return Err("Error executing the function".to_string());
+    }
 
-        // mDNS SERVICES
-        //LAN
-        discover_all_mdns_devices(&folder_path, "_services._dns-sd._udp").await?;
+        //Pending...
+        //discover_all_mdns_devices(&folder_path, "_services._dns-sd._udp").await?;
         //discover_all_mdns_devices(&folder_path, "_services._http._tcp.local").await?;
         //discover_all_mdns_devices(&folder_path, "_services._ftp._tcp.local").await?;
         //discover_all_mdns_devices(&folder_path, "_services._ssh._tcp.local").await?;
         //discover_all_mdns_devices(&folder_path, "_services._smb._tcp.local").await?;
         //discover_all_mdns_devices(&folder_path, "_services._ipp._tcp.local").await?;
         //discover_all_mdns_devices(&folder_path, "_services._whats-my-name._tcp.local").await?;
+		//("powershell".to_string(), "netstat -n -a -p tcp -b".to_string(), "nsnap.txt".to_string()),
+		//arp -a | find "00-1A-2B-3C-4D-5E" (remplazar por la mac que corresponda)
+		//nslookup 192.168.1.1 (remplazar por la ip que corresponda)
+		//"hname_arp" u "hname_nslookup" 
 
-        // COMMANDS TO EXEC
+        //Doing...
         let commands = [
-            //LAN
-            //("powershell".to_string(), "netstat -n -a -p tcp -b".to_string(), "nsnap.txt".to_string()),
-
-            //ENDPOINT
             ("powershell".to_string(), "Get-ItemProperty HKLM:\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\* | Select-Object DisplayName, InstallDate, DisplayVersion, Publisher | Format-Table –AutoSize".to_string(), "hklm.txt".to_string()),
             ("powershell".to_string(), "Get-AppxPackage | Select Name, PackageFullName | Format-Table -AutoSize".to_string(), "appx.txt".to_string()),
             ("powershell".to_string(), "wmic product list brief".to_string(), "wmic.txt".to_string()),
             ("cmd".to_string(), format!("echo Y | winget export -o {} 2>&1 >> {}", folder_path.join("wing.txt").display(), folder_path.join("wing_errs.txt").display()), "wing.txt".to_string()),
             ];
 
-        //para sacar los hostname en windows, para cada uno de los elementos de lan, corres:
-        //arp -a | find "00-1A-2B-3C-4D-5E" (remplazar por la mac que corresponda)
-        //y después corres:
-        //nslookup 192.168.1.1 (remplazar por la ip que corresponda)
-        //almacenas en "hname_arp" u "hname_nslookup" 
-
-        // PROCESS EACH COMMAND
-        for (cmd, args, file) in commands.iter() {
-            let output_path = folder_path.join(file);
-            if let Err(e) = exec_shell_command(cmd, args, output_path.to_str().unwrap()) {
-                return Err(format!(r#"{{"error": "{}"}}"#, e.to_string()));
-            }
-        }
+		// Run commands asynchronously
+		for (cmd, args, file) in commands.iter() {
+			let output_path = folder_path.join(file);
+			if let Err(e) = exec_shell_command(cmd, args, output_path.to_str().unwrap()).await {
+				return Err(format!(r#"{{"error": "{}"}}"#, e.to_string()));
+			}
+		}
+		
+		//wmic
         let wmic_file = parser::process_file(&folder_path, "wmic.txt")?;
         let wmic_output: Vec<Value> = parser::parse_wmic_output(&wmic_file).as_array().unwrap().clone();
+		//wing
         let wing_file = parser::process_file(&folder_path, "wing.txt")?;
         let wing_output: Vec<Value> = parser::parse_wing_output(&wing_file).as_array().unwrap().clone();
+		//hklm
         let hklm_file = parser::process_file(&folder_path, "hklm.txt")?;
         let hklm_output: Vec<Value> = parser::parse_hklm_output(&hklm_file).as_array().unwrap().clone();
+		//appx
         let appx_file = parser::process_file(&folder_path, "appx.txt")?;
         let appx_output: Vec<Value> = parser::parse_appx_output(&appx_file).as_array().unwrap().clone();
 
@@ -96,57 +115,20 @@ const SHOULD_UPLOAD: bool = true;
             appx_output
         ].concat();
 
-        let final_output = json!(combined_output).to_string();
-
-        // UPLOAD FILES
-        if SHOULD_UPLOAD {
-            upload_files(&final_output, &session_id).await?;
-        }
-
-        Ok(r#"{"success": "Scan completed successfully"}"#.to_string())
-    }
-
-    // EXECUTION FOR NON WINDOWS MACHINES
-
-    //linux: dpkg -l
-    //linux: rpm -qa
-    //mac: ls /Applications
-
-    #[cfg(not(target_os = "windows"))]
-    #[tauri::command]
-    async fn scan_local(session_id: String) -> Result<String, String> {
-        Err(r#"{"error": "This function is only available on Windows"}"#.to_string())
-    }
-
-
-    #[tauri::command]
-    async fn get_mac_addr() -> Result<String, String> {
-        let mac_address_result = get_mac_address();
-        let mac_address = match mac_address_result {
-            Ok(Some(mac)) => mac.to_string(),
-            Ok(None) => return Err("No MAC address found".to_string()),
-            Err(e) => return Err(e.to_string()),
-        };
-    
-        let json_response = json!({ "mac_address": mac_address }).to_string();
-        Ok(json_response)
-    }
-
-    // UPLOADS FOLDER TO CODEFEND
-    #[cfg(target_os = "windows")]
-    async fn upload_files(
-        parsed_data: &String, 
-        session_id: &String,
-    ) -> Result<(), String> {
-        let url = format!(
-            "https://api.codefend.com/kundalini/index.php?model=local_network/enp&ac=insert_enp&company_id=1&session={}",
+        let device_parsed_apps = json!(combined_output).to_string();
+		
+		
+		/*push********************************************/
+		
+		let url = format!(
+            "https://api.codefend.com/kundalini/index.php?model=resources/epm&ac=add&company_id=1&session={}",
             session_id
         );
         let client = reqwest::Client::new();
 
         // Get the MAC address
-        let mac_address_result = get_mac_address();
-        let mac_address = match mac_address_result {
+        let device_mac_address_result = get_mac_address();
+        let device_mac_address = match device_mac_address_result {
             Ok(Some(mac)) => mac.to_string(),  // Convert MacAddress to String
             Ok(None) => return Err("No MAC address found".to_string()),
             Err(e) => return Err(e.to_string()),
@@ -155,8 +137,13 @@ const SHOULD_UPLOAD: bool = true;
 
         let response = client.post(url)
             .form(&[
-                ("parsed_data", &parsed_data),
-                ("mac_address", &&mac_address),
+                ("device_name", &&device_name),
+				("device_mac_address", &&device_mac_address),
+				("device_parsed_apps", &&&device_parsed_apps),
+				("device_os_name", &&device_os_name),
+				("device_os_release", &&device_os_release),
+				("device_ip_i", &&device_ip_i),
+				("device_ip_e", &&device_ip_e),
             ])
             .send()
             .await
@@ -165,18 +152,24 @@ const SHOULD_UPLOAD: bool = true;
         let response_body = response.text().await.map_err(|e| e.to_string())?;
         println!("Response: {}", response_body);
 
-        Ok(())
-    }
+        
 
-// CHECKS ADMIN PRIVILEGES
-#[cfg(target_os = "windows")]
-fn admin_privileges() -> bool {
-    is_elevated::is_elevated()
+		Ok((device_name, device_os_name, device_os_release, device_ip_i.to_string(), device_ip_e.to_string()))
 }
 
-// EXECS CMD
+//cambiar por una url de propia
+async fn get_external_ip() -> Result<String, reqwest::Error> {
+    let response = reqwest::get("https://api.ipify.org").await?.text().await?;
+    Ok(response)
+}
+
+
 #[cfg(target_os = "windows")]
-fn exec_shell_command(command: &str, args: &str, output_file: &str) -> io::Result<()> {
+fn admin_privileges() -> bool { is_elevated::is_elevated() }
+
+//exec en windows...
+#[cfg(target_os = "windows")]
+async fn exec_shell_command(command: &str, args: &str, output_file: &str) -> io::Result<()> {
     let full_command = format!("{} > {}", args, output_file);
     let output = if command == "powershell" {
         Command::new("powershell")
@@ -203,7 +196,7 @@ fn exec_shell_command(command: &str, args: &str, output_file: &str) -> io::Resul
     Ok(())
 }
 
-// EXECS mDNS
+//mdns
 async fn discover_all_mdns_devices(folder_path: &PathBuf, service_type: &str) -> Result<String, String> {
     use std::time::{Instant, Duration};
     use std::fs::File;

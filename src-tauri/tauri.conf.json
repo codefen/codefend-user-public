@@ -22,8 +22,8 @@
       "active": true,
       "targets": "all",
       "identifier": "App.Name",
-      "publisher": "Unknown Publisher",
-      "copyright": "Copyright Notice",
+      "publisher": "Codefend LLC",
+      "copyright": "Codefend 2022 ©",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
