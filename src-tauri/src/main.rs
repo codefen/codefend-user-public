@@ -27,19 +27,6 @@ fn main() {
 }
 
 #[tauri::command]
-async fn get_mac_addr() -> Result<String, String> {
-	let mac_address_result = get_mac_address();
-	let mac_address = match mac_address_result {
-		Ok(Some(mac)) => mac.to_string(),
-		Ok(None) => return Err("No MAC address found".to_string()),
-		Err(e) => return Err(e.to_string()),
-	};
-
-	let json_response = json!({ "mac_address": mac_address }).to_string();
-	Ok(json_response)
-}
-
-#[tauri::command]
 async fn scan_local(session_id: String) -> Result<(String, String, String, String, String), String> {
 	
 	println!("Inicializando scan local...");
@@ -121,7 +108,7 @@ async fn scan_local(session_id: String) -> Result<(String, String, String, Strin
 		/*push********************************************/
 		
 		let url = format!(
-            "https://api.codefend.com/kundalini/index.php?model=resources/epm&ac=add&company_id=1&session={}",
+            "https://api.codefend.com/kundalini/index.php?model=resources/devices&ac=add&company_id=1&session={}",
             session_id
         );
         let client = reqwest::Client::new();

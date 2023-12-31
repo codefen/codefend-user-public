@@ -9,9 +9,10 @@ export class EndpointServices {
         try {
             const { data } = await fetchFromApi({
                 params: {
-                    model: "local_network/enp",
-                    ac: "get_enp",
+                    model: "resources/devices",
+                    ac: "view_one",
                     mac_address: mac_address.mac_address,
+                    //should work using device_id
                     company_id: getUserCompanyId()
                 }
             })
@@ -27,8 +28,8 @@ export class EndpointServices {
         try {
             const { data } = await fetchFromApi({
                 params: {
-                    model: "local_network/enp",
-                    ac: "delete_enp",
+                    model: "resources/devices",
+                    ac: "del",
                     id: enpId,
                     company_id: getUserCompanyId()
                 }
