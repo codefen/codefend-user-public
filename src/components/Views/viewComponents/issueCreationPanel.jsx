@@ -29,7 +29,7 @@ function SourceCode(props) {
     }
   };
 
-  const handleIssueUpdate = (e) => {
+  const handleIssueUpdate = async (e) => {
     // e.preventDefault();
     const _editorContent = getTinyEditorContent("issue");
     if (!_editorContent) {
@@ -74,15 +74,19 @@ function SourceCode(props) {
 
     console.log({ requestParams });
 
-    IssuesServices.add(requestParams)
-      .then(() => {
-        props.onDone ? props.onDone() : history.push(0);
-        setShowModal(!showModal());
-        toast.success("Successfully Added Issue...");
-      })
-      .finally(() => {
-        setIsAddingIssue(false);
-      });
+    try {
+      const data = await IssuesServices.add(requestParams);
+      const newIssueId = data?.new_issue?.id ?? "";
+      props.onDone ? props.onDone() : history.push(0);
+      setShowModal(!showModal());
+      toast.success("Successfully Added Issue...");
+      if (newIssueId) {
+        history.push(`issues/${newIssueId}`);
+      }
+    } catch (error) {
+    } finally {
+      setIsAddingIssue(false);
+    }
   };
 
   // createEffect(() => {
