@@ -68,7 +68,7 @@ function IssuesPanelMobileAndCloud(props) {
 
                   <div class="vul-risk">{vulnerability.risk_level}</div>
                   <div class="vul-score flex no-border-bottom">
-                    <span class="">{vulnerability.risk_score}</span>
+                    <span class="mt-2">{vulnerability.risk_score}</span>
 
                     <span class="mr-1"></span>
                     <For
@@ -81,7 +81,7 @@ function IssuesPanelMobileAndCloud(props) {
                     >
                       {() => (
                         <>
-                          <span class="w-2 h-2 ml-0.5 mb-2 red-border rounded-full codefend-bg-red"></span>
+                          <span class="w-2 h-2 ml-0.5 mt-2 red-border rounded-full codefend-bg-red"></span>
                         </>
                       )}
                     </For>
@@ -95,7 +95,7 @@ function IssuesPanelMobileAndCloud(props) {
                     >
                       {() => (
                         <>
-                          <span class="w-2 h-2 ml-0.5 mb-2  codefend-border-red rounded-full">
+                          <span class="w-2 h-2 ml-0.5 mt-2  codefend-border-red rounded-full">
                             {" "}
                           </span>
                         </>

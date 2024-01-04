@@ -46,6 +46,8 @@ import createModal from "../../Store/modal.jsx";
 import ModalWrapper from "./modalComponents/ModalWrapper.jsx";
 import { HiOutlineBars3BottomLeft } from "solid-icons/hi";
 import { PageLoader } from "../../views/Loader.jsx";
+import EmptyScreenView from "./viewComponents/EmptyScreenView.jsx";
+import history from "../../history.jsx";
 
 const getMobileApplicationData = async () => {
   try {
@@ -115,6 +117,7 @@ function MainView() {
             <MobileAppModal
               onDone={() => {
                 refetch();
+                history.push(0);
               }}
             />
             <div class="container flex items-center justify-center  mx-auto p-3 text-format"></div>
@@ -123,51 +126,65 @@ function MainView() {
       </Show>
       <main class={`mobile ${showScreen() ? "actived" : ""}`}>
         <Show when={!mobileInfo.loading} fallback={() => <PageLoader />}>
-          <section class="left pb-4">
-            <div class="flex w-full">
-              <button
-                onClick={(e) => {
-                  setShowModal(!showModal());
-                  setShowModalStr("add_mobile");
-                }}
-                class="btn btn-primary full-w mb-4"
-              >
-                ADD MOBILE APP
-              </button>
-            </div>
-            <div class="list">
-              <For each={getMobileInfo()}>
-                {(mobile) => (
-                  <div
-                    class="cursor-pointer"
-                    onClick={() => handleMobileAppClick(mobile)}
+          {!Boolean(getMobileInfo().length) ? (
+            <EmptyScreenView
+              buttonText="Add Mobile"
+              onButtonClick={() => {
+                setShowModal(!showModal());
+                setShowModalStr("add_mobile");
+              }}
+            />
+          ) : (
+            <>
+              <section class="left pb-4">
+                <div class="flex w-full">
+                  <button
+                    onClick={(e) => {
+                      setShowModal(!showModal());
+                      setShowModalStr("add_mobile");
+                    }}
+                    class="btn btn-primary full-w mb-4"
                   >
-                    <MobileAppCard
-                      active={handleActiveMobileValidation(mobile)}
-                      onDone={(id) => {
-                        refetch();
-                        if (
-                          selectedMobileApp() &&
-                          selectedMobileApp().id === id
-                        ) {
-                          setSelectedMobileApp(null);
-                        }
-                      }}
-                      type="mobile"
-                      {...mobile}
-                      name={mobile.app_name}
-                    />
-                  </div>
+                    ADD MOBILE APP
+                  </button>
+                </div>
+                <div class="list">
+                  <For each={getMobileInfo()}>
+                    {(mobile) => (
+                      <div
+                        class="cursor-pointer"
+                        onClick={() => handleMobileAppClick(mobile)}
+                      >
+                        <MobileAppCard
+                          active={handleActiveMobileValidation(mobile)}
+                          onDone={(id) => {
+                            refetch();
+                            if (
+                              selectedMobileApp() &&
+                              selectedMobileApp().id === id
+                            ) {
+                              setSelectedMobileApp(null);
+                            }
+                          }}
+                          type="mobile"
+                          {...mobile}
+                          name={mobile.app_name}
+                        />
+                      </div>
+                    )}
+                  </For>
+                </div>
+              </section>
+              <section class="right">
+                {selectedMobileApp() && (
+                  <MobileSelectedDetails
+                    selectedMobileApp={selectedMobileApp}
+                  />
                 )}
-              </For>
-            </div>
-          </section>
-        </Show>
-        <section class="right">
-          {selectedMobileApp() && (
-            <MobileSelectedDetails selectedMobileApp={selectedMobileApp} />
+              </section>
+            </>
           )}
-        </section>
+        </Show>
       </main>
     </>
   );

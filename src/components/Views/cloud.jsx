@@ -23,9 +23,11 @@ import CloudSelectedDetails from "./viewComponents/CloudSelectedDetails.jsx";
 import ModalWrapper from "./modalComponents/ModalWrapper.jsx";
 import AddCloudModal from "./modalComponents/addCloudModal.jsx";
 import { HiOutlineBars3BottomLeft } from "solid-icons/hi";
+import EmptyScreenView from "./viewComponents/EmptyScreenView.jsx";
 
 import createModal from "../../Store/modal.jsx";
 import { PageLoader } from "../../views/Loader.jsx";
+import history from "../../history.jsx";
 
 const getCloudApplicationData = async () => {
   try {
@@ -91,6 +93,7 @@ function MainView() {
               <AddCloudModal
                 onDone={() => {
                   refetch();
+                  history.push(0);
                 }}
               />
               <div class="container flex items-center justify-center  mx-auto p-3 text-format"></div>
@@ -100,58 +103,71 @@ function MainView() {
       </Show>
       <main class={`cloud ${showScreen() ? "actived" : ""}`}>
         <Show when={!cloudInfo.loading} fallback={() => <PageLoader />}>
-          <section class="left pb-4">
-            <div class="flex w-full">
-              <button
-                onClick={(e) => {
-                  setShowModal(!showModal());
-                  setShowModalStr("add_cloud");
-                }}
-                class="btn btn-primary full-w mb-4"
-              >
-                ADD CLOUD
-              </button>
-            </div>
-            <div class="list">
-              <For each={getCloudInfo()}>
-                {(cloud) => (
-                  <div
-                    class="cursor-pointer"
-                    onClick={() => handleCloudAppClick(cloud)}
+          {!Boolean(getCloudInfo().length) ? (
+            <EmptyScreenView
+              buttonText="Add Cloud"
+              onButtonClick={() => {
+                setShowModal(!showModal());
+                setShowModalStr("add_cloud");
+              }}
+            />
+          ) : (
+            <>
+              <section class="left pb-4">
+                <div class="flex w-full">
+                  <button
+                    onClick={(e) => {
+                      setShowModal(!showModal());
+                      setShowModalStr("add_cloud");
+                    }}
+                    class="btn btn-primary full-w mb-4"
                   >
-                    <MobileAppCard
-                      active={handleActiveCloudValidation(cloud)}
-                      {...cloud}
-                      app_desc={cloud.cloud_desc}
-                      name={cloud.cloud_name}
-                      onDone={(id) => {
-                        refetch();
+                    ADD CLOUD
+                  </button>
+                </div>
+                <div class="list">
+                  <For each={getCloudInfo()}>
+                    {(cloud) => (
+                      <div
+                        class="cursor-pointer"
+                        onClick={() => handleCloudAppClick(cloud)}
+                      >
+                        <MobileAppCard
+                          active={handleActiveCloudValidation(cloud)}
+                          {...cloud}
+                          app_desc={cloud.cloud_desc}
+                          name={cloud.cloud_name}
+                          onDone={(id) => {
+                            refetch();
 
-                        if (
-                          selectedCloudApp() &&
-                          selectedCloudApp().id === id
-                        ) {
-                          setSelectedCloudApp(null);
-                        }
-                      }}
-                    />
-                  </div>
-                )}
-              </For>
-              {/* <div class="w-[26rem]" onClick={() => handleMobileAppClick(-1)}>
+                            if (
+                              selectedCloudApp() &&
+                              selectedCloudApp().id === id
+                            ) {
+                              setSelectedCloudApp(null);
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
+                  </For>
+                  {/* <div class="w-[26rem]" onClick={() => handleMobileAppClick(-1)}>
               <MobileAppCard
                 active={selectedMobileApp() === -1}
                 isMainNetwork
               />
             </div> */}
-            </div>
-          </section>
-        </Show>
-        <section class="right">
-          {selectedCloudApp() && (
-            <CloudSelectedDetails selectedCloudApp={selectedCloudApp} />
+                </div>
+              </section>
+
+              <section class="right">
+                {selectedCloudApp() && (
+                  <CloudSelectedDetails selectedCloudApp={selectedCloudApp} />
+                )}
+              </section>
+            </>
           )}
-        </section>
+        </Show>
       </main>
     </>
   );
