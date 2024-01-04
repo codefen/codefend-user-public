@@ -8,16 +8,17 @@ import toast from "solid-toast";
 import { IssuesServices } from "../../../Services/ApiHandlerV2/issues.handler.js";
 import { formatDate } from "../../../utils/helper.js";
 import { PageLoader, PageLoaderOverlay } from "../../../views/Loader.jsx";
-import { getTinyEditorContent, setMode } from "../../../editor/index.js";
+import { getTinyEditorContent } from "../../../editor/index.js";
 import createUser from "../../../Store/user.jsx";
+import createModal from "../../../Store/modal.jsx";
 
 function SourceCode(props) {
-  const [isUpdatingIssue, setIsUpdatingIssue] = createSignal(false);
   // const [isEditable, setIsEditable] = createSignal(false);
   const [issueName, setIssueName] = createSignal("");
   const [score, setScore] = createSignal("");
   const [issueClass, setIssueClass] = createSignal("");
   const [isAddingIssue, setIsAddingIssue] = createSignal(false);
+  const { setShowModal, showModal } = createModal;
 
   const { user } = createUser;
 
@@ -75,7 +76,7 @@ function SourceCode(props) {
 
     IssuesServices.add(requestParams)
       .then(() => {
-        props.onDone();
+        props.onDone ? props.onDone() : history.push(0);
         setShowModal(!showModal());
         toast.success("Successfully Added Issue...");
       })
@@ -220,11 +221,11 @@ function SourceCode(props) {
           <AppEditor
             isEditable={() => true}
             initialValue={props.issue?.issue ?? ""}
-            isUpdatingIssue={isUpdatingIssue}
+            isUpdatingIssue={isAddingIssue}
             isIssueCreation
           />
         </div>
-        {isUpdatingIssue() && <PageLoaderOverlay />}
+        {isAddingIssue() && <PageLoaderOverlay />}
       </Show>
     </>
   );

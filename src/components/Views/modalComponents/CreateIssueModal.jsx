@@ -14,7 +14,7 @@ const CreateIssueModal = (props) => {
   return (
     // <div class="w-screen h-screen  bg-black bg-opacity-20 flex items-center justify-center z-20 ">
 
-    <main class={`issue-detail ${showScreen() ? "actived" : ""}`}>
+    <main class={`issue-detail w-full ${showScreen() ? "actived" : ""}`}>
       <section class="issue">
         {/* <div class="pb-[20px] title title-format ">
             Vulnerabilities & findings

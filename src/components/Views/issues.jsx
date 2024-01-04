@@ -14,6 +14,7 @@ import { IssuesServices } from "../../Services/ApiHandlerV2/issues.handler.js";
 import DashboardChart from "./viewComponents/dashboardChart.jsx";
 import DashboardVulnerabilitiesStatus from "./viewComponents/dashboardVulnerabilitiesStatus.jsx";
 import { createStore } from "solid-js/store";
+import CreateIssueModal from "./modalComponents/CreateIssueModal.jsx";
 
 const getIssues = async () => {
   try {
@@ -29,6 +30,7 @@ function MainView() {
   const [issuesInfo, { refetch }] = createResource(getIssues);
   const [issueFilters, setIssueFilters] = createStore({ filters: {} });
   const [showScreen, setShowScreen] = createSignal(false);
+  const [startIssueCreation, setStartIssueCreation] = createSignal(false);
 
   createEffect(() => {
     setTimeout(() => {
@@ -67,44 +69,59 @@ function MainView() {
 
   return (
     <>
-      <main class={`issues-list ${showScreen() ? "actived" : ""}`}>
-        <section class="left">
-          <IssuesPanel
-            isLoading={issuesInfo.loading}
-            issues={
-              handleIssuesFilter().isFiltered
-                ? handleIssuesFilter().filteredData
-                : issuesInfoData()?.issues ?? []
-            }
-            refetchIssues={refetch}
-          />
-        </section>
-        <section class="right">
-          <DashboardChart
-            isLoading={issuesInfo.loading}
-            vulnerabilityByRisk={issuesInfoData()?.issues_share ?? {}}
-          />
+      {startIssueCreation() ? (
+        <>
+          <div class=" flex h-full w-full items-center bg-white">
+            <CreateIssueModal
+              closeModal={() => {
+                setStartIssueCreation(false);
+              }}
+            />
+          </div>
+        </>
+      ) : (
+        <main class={`issues-list ${showScreen() ? "actived" : ""}`}>
+          <section class="left">
+            <IssuesPanel
+              showIssueSection={() => {
+                setStartIssueCreation(true);
+              }}
+              isLoading={issuesInfo.loading}
+              issues={
+                handleIssuesFilter().isFiltered
+                  ? handleIssuesFilter().filteredData
+                  : issuesInfoData()?.issues ?? []
+              }
+              refetchIssues={refetch}
+            />
+          </section>
+          <section class="right">
+            <DashboardChart
+              isLoading={issuesInfo.loading}
+              vulnerabilityByRisk={issuesInfoData()?.issues_share ?? {}}
+            />
 
-          <DashboardVulnerabilitiesStatus
-            vulnerabilityByShare={issuesInfoData()?.issues_condicion ?? {}}
-          />
+            <DashboardVulnerabilitiesStatus
+              vulnerabilityByShare={issuesInfoData()?.issues_condicion ?? {}}
+            />
 
-          <button
-            onClick={(e) => {
-              alert("Generating report");
-            }}
-            class="btn btn-primary full-w mt-4 mb-4"
-          >
-            GENERATE REPORT
-          </button>
+            <button
+              onClick={(e) => {
+                alert("Generating report");
+              }}
+              class="btn btn-primary full-w mt-4 mb-4"
+            >
+              GENERATE REPORT
+            </button>
 
-          <IssuesReport
-            isLoading={issuesInfo.loading}
-            issuesClasses={issuesInfoData()?.issues_class ?? {}}
-            setIssueFilters={setIssueFilters}
-          />
-        </section>
-      </main>
+            <IssuesReport
+              isLoading={issuesInfo.loading}
+              issuesClasses={issuesInfoData()?.issues_class ?? {}}
+              setIssueFilters={setIssueFilters}
+            />
+          </section>
+        </main>
+      )}
     </>
   );
 }

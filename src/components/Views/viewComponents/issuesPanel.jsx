@@ -18,30 +18,6 @@ function SourceCode(props) {
   const [selectedId, setSelectedId] = createSignal(0);
   return (
     <>
-      <Show when={showModal() && showModalStr() === "add_issue"}>
-        {/* <ModalWrapper>
-          <div class="w-full w-96 internal-tables disable-border">
-            <div class="modal-header">
-                <HiOutlineBars3BottomLeft class="text-lg mr-2 text-fend-red"/>
-                <span class="text-sm">Add issue</span>
-            </div>
-            <AddVulnerabilityModal
-              onDone={() => {
-                props.refetchIssues();
-              }}
-            />
-            <div class="container flex items-center justify-center  mx-auto p-3 text-format"></div>
-          </div>
-        </ModalWrapper> */}
-        <div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-20 z-20 py-10">
-          <CreateIssueModal
-            closeModal={() => {
-              setShowModal(!showModal());
-              setShowModalStr("");
-            }}
-          />
-        </div>
-      </Show>
       <Show when={showModal() && showModalStr() === "delete_issue"}>
         <ModalWrapper>
           <div class="w-full w-96 internal-tables disable-border">
@@ -70,8 +46,7 @@ function SourceCode(props) {
           <div class="actions">
             <div
               onClick={() => {
-                setShowModal(!showModal());
-                setShowModalStr("add_issue");
+                props.showIssueSection();
               }}
               class=""
             >
