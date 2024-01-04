@@ -10,15 +10,14 @@ const issuesReport = (props) => {
   return (
     <>
       <div class="card filtered">
-
-      <div class="header">
-            <div class="title">
-              <div class="icon">
-                <FaSolidChartSimple />
-              </div>
-              <span>FILTER AND GENERATE REPORT</span>
+        <div class="header">
+          <div class="title">
+            <div class="icon">
+              <FaSolidChartSimple />
             </div>
-          </div> 
+            <span>FILTER AND GENERATE REPORT</span>
+          </div>
+        </div>
 
         <div class="content filters">
           <For
@@ -30,12 +29,13 @@ const issuesReport = (props) => {
               <div class="filter">
                 <div class="check">
                   <input
+                    id={issuesClass}
                     type="checkbox"
                     disabled={props.issuesClasses[issuesClass] == 0}
                     onChange={(e) => handleFilter(e, issuesClass)}
                     class=""
                   />
-                  <span>{issuesClass}</span>
+                  <label for={issuesClass}>{issuesClass}</label>
                 </div>
 
                 <div class="value">

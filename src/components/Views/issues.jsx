@@ -44,6 +44,7 @@ function MainView() {
   };
 
   const handleIssuesFilter = () => {
+    console.log("fileter handle called");
     const filterArray = Object.entries({ ...issueFilters.filters });
     if (filterArray.length === 0) return {};
 
@@ -56,8 +57,10 @@ function MainView() {
       ? issuesInfoData().issues
       : [];
 
+    console.log({ issuesDataList, selectedFilters });
+
     const filteredData = issuesDataList.filter((datum) =>
-      selectedFilters.includes(datum.class.toLowerCase())
+      selectedFilters.includes(datum.resource_class.toLowerCase())
     );
     console.log({
       filteredData,

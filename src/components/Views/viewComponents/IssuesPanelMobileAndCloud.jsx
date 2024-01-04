@@ -95,7 +95,9 @@ function IssuesPanelMobileAndCloud(props) {
                     >
                       {() => (
                         <>
-                          <span class="w-2 h-2 ml-0.5  codefend-border-red rounded-full"></span>
+                          <span class="w-2 h-2 ml-0.5 mb-2  codefend-border-red rounded-full">
+                            {" "}
+                          </span>
                         </>
                       )}
                     </For>
