@@ -100,9 +100,9 @@ function MainView() {
                 <button
                   type="submit"
                   disabled={isLoading()}
-                  // onClick={(e) => {
-                  //   handleSubmit(e);
-                  // }}
+                  onClick={(e) => {
+                    handleSubmit(e);
+                  }}
                   class="btn btn-primary"
                 >
                   proceed

@@ -183,9 +183,9 @@ body {
 /*********** Thanks for sharing ****************************/
 /***********************************************************/
 
-* {
+/* * {
   cursor: default;
-}
+} */
 select {
   cursor: pointer !important;
 }
@@ -499,7 +499,7 @@ main {
 
 
 ///////////////////////////////////////////////////////////////////
-// access (singin - signup)
+// access (signin - signup)
 //////////////////////////////////////////////////////////////////
 section.access {
   background-image: url("/codefend/access-bkg.png");
@@ -546,6 +546,39 @@ section.access {
     min-height: 95vh;
     background-color: #ffffff;
     padding: 27px 75px;
+  }
+
+  @media screen and (max-width: 784px) {
+    .container {
+      flex-direction: column;
+      position: relative
+    }
+
+    .brand {
+      padding: 30px 120px;
+    }
+
+    .forms {
+      padding: 60px 50px;
+
+      max-height: 90vh;
+      overflow-y: auto;
+
+      &::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: transparent;
+      }
+    }
+
+    form {
+      max-width: 195px;
+    }
   }
 }
 
@@ -744,7 +777,7 @@ section.issue {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 10px 20px;
 
       p {
         color: var(--text-color);
@@ -791,7 +824,7 @@ section.issue {
         color: var(--text-color-alt3);
         font-family: 'Roboto';
         text-transform: uppercase;
-        padding: 20px 0px;
+        padding: 10px 0px;
         flex: 1;
         border-right: 1px solid var(--color-border);
         .value {
@@ -823,6 +856,8 @@ section.issue {
       color: var(--font-color);
       display: flex;
       flex-direction: column;
+      max-height: 130px;  
+      overflow-y: auto;
 
       .filter {
         display: flex;
@@ -1005,7 +1040,7 @@ section.issue {
     min-width: 220px;
   }
   .server-ip, .ip, .os {
-    width: 150px;
+    width: 130px;
     flex: inherit !important;
   }
   .location {
@@ -1013,11 +1048,11 @@ section.issue {
     flex: inherit !important;
   }
   .date {
-    width: 120px;
+    width: 110px;
     flex: inherit !important;
   }
   .username {
-    width: 120px;
+    width: 110px;
     flex: inherit !important;
   }
   .vul-class {
@@ -1029,7 +1064,7 @@ section.issue {
     flex: inherit !important;
   }
   .vul-risk {
-    width: 120px;
+    width: 110px;
     flex: inherit !important;
   }
   .vul-score {
@@ -1037,7 +1072,7 @@ section.issue {
     flex: inherit !important;
   }
   .vul-title {
-    min-width: 150px;
+    min-width: 100px;
     // flex: 1 1 100% !important;
   }
   .risk {
@@ -1097,7 +1132,7 @@ section.issue {
   border-right: 1px solid var(--color-border);
   border-left: 1px solid var(--color-border);
   background-color: var(--bkg-main);
-
+  overflow: auto;
 
 
 }

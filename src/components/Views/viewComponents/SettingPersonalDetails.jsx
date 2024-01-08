@@ -52,7 +52,7 @@ function SettingPersonalDetails() {
           </p>
         </div>
         <div class="flex flex-row gap-x-7 items-center px-8 py-2">
-          <section class="flex  mb-20">
+          {/* <section class="flex  mb-20">
             <Show
               when={userInfo().photo_media}
               fallback={() => (
@@ -71,7 +71,7 @@ function SettingPersonalDetails() {
                 />
               </div>
             </Show>
-          </section>
+          </section> */}
           <div class="w-full mb-20">
             <For each={personalDetails()}>
               {(detail) => (

@@ -79,35 +79,39 @@ function InternalNetworks(props) {
 
         <Show when={!props.isLoading} fallback={() => <PageLoader />}>
           <div class="rows">
-            <For each={props.endpoints[0].apps}>
-              {(endpoint) => (
-                <>
-                  <div class="item left-marked">
-                    <div class="id">{endpoint.id}</div>
-                    <div class="hostname">{endpoint.Name}</div>
-                    <div class="ip">{endpoint.Vendor}</div>
-                    <div class="os">
-                      {endpoint.Version}
+            {props.endpoints.length > 0 ? (
+              <For each={props.endpoints[0]?.apps || []}>
+                {(endpoint) => (
+                  <>
+                    <div class="item left-marked">
+                      <div class="id">{endpoint.id}</div>
+                      <div class="hostname">{endpoint.Name}</div>
+                      <div class="ip">{endpoint.Vendor}</div>
+                      <div class="os">
+                        {endpoint.Version}
+                      </div>
+                      <div class="ip">{endpoint.Type}</div>
+                      <div
+                        class="id cursor-pointer p-3 flex"
+                        onClick={() => {
+                          setSelectedLanIdToDelete(endpoint?.id);
+                          setShowModal(!showModal());
+                          setShowModalStr("delete_resource");
+                        }}
+                      >
+                        <FaSolidTrash />
+                      </div>
                     </div>
-                    <div class="ip">{endpoint.Type}</div>
-                    <div
-                      class="id cursor-pointer p-3 flex"
-                      onClick={() => {
-                        setSelectedLanIdToDelete(endpoint?.id);
-                        setShowModal(!showModal());
-                        setShowModalStr("delete_resource");
-                      }}
-                    >
-                      <FaSolidTrash />
-                    </div>
-                  </div>
-                </>
-              )}
-            </For>
+                  </>
+                )}
+              </For>
+            ) : (
+              <EmptyCard />
+            )}
           </div>
         </Show>
       </div>
-      <Show when={!props.isLoading && props.endpoints[0].apps.length === 0}>
+      <Show when={!props.isLoading && props.endpoints[0]?.apps?.length === 0}>
         <EmptyCard />
       </Show>
     </>
