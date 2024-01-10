@@ -1,6 +1,6 @@
 import { createEffect, createSignal } from "solid-js";
 import IssueCreationPanel from "../viewComponents/issueCreationPanel";
-import IssueChatDisplay from "../viewComponents/IssueChatDisplay";
+import IssueCreationChatDisplay from "../viewComponents/IssueCreationChatDisplay";
 
 const CreateIssueModal = (props) => {
   const [showScreen, setShowScreen] = createSignal(false);
@@ -28,13 +28,13 @@ const CreateIssueModal = (props) => {
         />
       </section>
 
-      {/* <section class="grow h-full">
-          <IssueChatDisplay
-            selectedIssue={{}}
-            isLoading={false}
-            refetch={() => {}}
-          />
-        </section> */}
+      <section class="grow h-full">
+        <IssueCreationChatDisplay
+          selectedIssue={{}}
+          isLoading={false}
+          refetch={() => {}}
+        />
+      </section>
     </main>
     // </div>
   );
