@@ -103,11 +103,11 @@ export const getCompanyMetric = (resources = [], type) => {
 };
 
 /** Date formatter */
-export const formatDate = (date) => {
+export const formatDate = (date, isNum) => {
     if (!date && typeof Date !== 'Date') return ''
     // const formattedDate = new Date(date).toLocaleDateString().replace(/\//ig, "-")
-    // console.log({ date });
-    const formattedDate = new Date(date).toISOString()
+    const _date = isNum ? parseInt(date) * 1000 : date
+    const formattedDate = new Date(_date).toISOString()
         .split("T")[0]
     return formattedDate
 

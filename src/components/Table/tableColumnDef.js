@@ -282,6 +282,62 @@ export const vulnerabilitiesColumnDef = [
 
 ]
 
+
+export const vdbColumnDef = [
+
+    columnHelper.accessor(row => row.entry.timestamp.create,
+        {
+            id: 'creacion',
+            header: 'published',
+            cell: info => formatDate(info.getValue(), true),
+
+        }
+    )
+    ,
+    columnHelper.accessor(row => row.entry.id,
+        {
+            id: 'vdb id',
+            header: "vdb id",
+            cell: info => `@${info.getValue()}`,
+        }
+    ),
+    columnHelper.accessor(
+        row => row.source.cve.id,
+        {
+            id: 'cve',
+            header: 'cve',
+            cell: info => info.getValue(),
+            // invertSorting: true
+
+        }
+    ),
+    columnHelper.accessor(row => row.entry.title,
+        {
+            id: "title",
+            header: 'title',
+            cell: info => info.getValue(),
+        }
+    ),
+    columnHelper.accessor(
+        'risk_score',
+        {
+            id: 'score',
+            header: 'score',
+            cell: info => info.getValue(),
+        }
+    ),
+    columnHelper.accessor(
+        'risk',
+        {
+            id: 'risk',
+            header: 'risk',
+            cell: info => info.getValue(),
+        }
+    )
+
+
+]
+
 export const preferencesOrdersColumnDef = [
 
     columnHelper.accessor('creacion',
