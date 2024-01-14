@@ -8,6 +8,17 @@ export const getToken = () => window.localStorage.getItem("token") ?? "";
 /** Set token in localStorage */
 export const setToken = (token) => window.localStorage.setItem("token", token);
 
+/** custom baseApi */
+export const getCustomBaseAPi = () => window.localStorage.getItem("baseApi") ?? "";
+
+/** Set baseApi in localStorage */
+export const setCustomBaseAPi = (baseApi) => window.localStorage.setItem("baseApi", baseApi);
+
+/** delete custom base APi */
+export const deleteCustomBaseAPi = (baseApi) => window.localStorage.removeItem("baseApi");
+
+
+
 /** persist user data in localStorage */
 export const persistUser = (userData = null) =>
     window.localStorage.setItem("user", JSON.stringify(userData));

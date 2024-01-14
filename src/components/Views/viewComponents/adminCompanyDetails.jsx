@@ -12,24 +12,24 @@ function InternalNetworksChart() {
   const [companyUsers, setCompanyUsers] = createSignal([]);
   const [selectedUser, setSelectedUser] = createSignal(null);
 
-  createEffect(() => {
-    if (companyStore()) {
-      ApiHandler.getPanelUsers().then((res) => {
-        const usersMapped = res.data.map((user) => {
-          return {
-            id: user.id,
-            name: user.name + " " + user.surname,
-            canRead: user.read_array.includes(companyStore().id),
-            canWrite: user.write_array.includes(companyStore().id),
-            write_array: user.write_array,
-            read_array: user.read_array,
-          };
-        });
+  // createEffect(() => {
+  //   if (companyStore()) {
+  //     ApiHandler.getPanelUsers().then((res) => {
+  //       const usersMapped = res.data.map((user) => {
+  //         return {
+  //           id: user.id,
+  //           name: user.name + " " + user.surname,
+  //           canRead: user.read_array.includes(companyStore().id),
+  //           canWrite: user.write_array.includes(companyStore().id),
+  //           write_array: user.write_array,
+  //           read_array: user.read_array,
+  //         };
+  //       });
 
-        setUsersToShow(usersMapped);
-      });
-    }
-  }, [companyStore()]);
+  //       setUsersToShow(usersMapped);
+  //     });
+  //   }
+  // }, [companyStore()]);
 
   const handleInputChange = (value) => {
     const maxResults = 3;
@@ -229,16 +229,18 @@ function InternalNetworksChart() {
             </p>
           </div>
           <div class="flex pl-8 text-format cursor-pointer">
-            <p class="text-base pt-3 pb-3">{`name: ${companyStore().name}`}</p>
+            <p class="text-base pt-3 pb-3">{`name: ${
+              companyStore().name ?? ""
+            }`}</p>
           </div>
           <div class="flex pl-8 text-format cursor-pointer">
             <p class="text-base pt-3 pb-3">{`website: ${
-              companyStore().web
+              companyStore().website ?? ""
             }`}</p>
           </div>
           <div class="flex pl-8 text-format cursor-pointer">
             <p class="text-base pt-3 pb-3">{`country: ${
-              companyStore().country
+              companyStore().country ?? ""
             }`}</p>
           </div>
           <div class="flex pl-8 text-format cursor-pointer">
@@ -246,11 +248,13 @@ function InternalNetworksChart() {
           </div>
           <div class="flex pl-8 text-format cursor-pointer">
             <p class="text-base pt-3 pb-3">{`address: ${
-              companyStore().address
+              companyStore().address ?? ""
             }`}</p>
           </div>
           <div class="flex pl-8 text-format cursor-pointer">
-            <p class="text-base pt-3 pb-3">{`size: ${companyStore().size}`}</p>
+            <p class="text-base pt-3 pb-3">{`size: ${
+              companyStore().size ?? ""
+            }`}</p>
           </div>
         </div>
         <div class="w-full internal-tables mt-4 max-h-80 overflow-y-scroll">

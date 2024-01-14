@@ -276,3 +276,35 @@ export const companySizesList = [
     { label: '10000-19999', value: "10000-19999" },
     { label: '2000', value: "2000" },
 ]
+
+
+export const defaultCompanyCardData = [
+    {
+        name: 'Zamplify',
+        id: "1",
+        website: "order.zamlify.com",
+        size: '50-99',
+        country: 'Tokyo',
+        city: "Yakuzi"
+    },
+    {
+        name: 'Kodak',
+        id: "2",
+        website: "kodak.tech",
+        size: '10-19',
+        country: 'Amsterdam',
+        city: "NY"
+
+
+
+    },
+    {
+        name: 'flash codefend',
+        id: "3",
+        website: "flash.codefend.com",
+        size: '20-49',
+        country: 'Argentina',
+        city: "Bueno Aires"
+
+    },
+]

@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "solid-toast";
 
-import { getToken } from "../../utils/helper"
+import { getCustomBaseAPi, getToken } from "../../utils/helper"
 import { baseUrl } from "../../utils/config";
 import createModal from '../../Store/modal'
 const { setShowModal, showModal, setShowModalStr } =
@@ -18,10 +18,12 @@ export const fetchFromApi = async ({
     params,
 }) => {
     let token = getToken();
-
+    const customAPi = getCustomBaseAPi()
+    const _baseUrl = customAPi ? customAPi : baseUrl
     // console.log(body)
-    const url = path ? `${baseUrl}${path}` : baseUrl;
+    const url = path ? `${_baseUrl}${path}` : _baseUrl;
 
+    // console.log({ baseUrl, customAPi, url, _baseUrl })
     const requestConfig = {
         url,
         method,

@@ -1,26 +1,32 @@
-import { For, createSignal } from "solid-js";
+import { For, createEffect, createSignal } from "solid-js";
 import createCompany from "../../../../Store/company";
 import CompanyCard from "./CompanyCard";
 import { TbArrowBigRight } from "solid-icons/tb";
+
+import { defaultCompanyCardData } from "../../../../constantData";
+
 import "./CompanyIndexView.scss";
 
 const CompanyIndexView = () => {
-  const [companies, setCompanies] = createSignal([{}, {}, {}]);
+  const [companies, setCompanies] = createSignal(defaultCompanyCardData);
   const [searchQuery, setSearchQuery] = createSignal("");
   const { companyStore, setCompanyStore } = createCompany;
 
   const companiesToRender = () => {
     if (searchQuery().trim() === "" || searchQuery().trim().length < 2)
       return companies();
-    return companies().filter(
-      (company) => company.name.toLowercase() === searchQuery().toLowerCase()
+    const _companies = companies();
+    const query = searchQuery();
+    console.log("hereeeee");
+    return _companies.filter((company) =>
+      company.name.toLowerCase().includes(query.toLowerCase())
     );
   };
 
   const isSelectedCompany = (company) => {
     if (!company || !company?.id) return false;
 
-    const selected = companyStore()?.company?.id === company?.id;
+    const selected = companyStore()?.id === company?.id;
     console.log({ selected });
     return selected;
   };
@@ -52,7 +58,13 @@ const CompanyIndexView = () => {
         <For each={companiesToRender()}>
           {(company) => (
             <div
-              onClick={() => setCompanyStore({ company: company })}
+              onClick={() => {
+                if (isSelectedCompany(company)) {
+                  setCompanyStore(null);
+                  return;
+                }
+                setCompanyStore(company);
+              }}
               key={company.id}
               class={`company ${isSelectedCompany(company) ? "selected" : ""} `}
             >
