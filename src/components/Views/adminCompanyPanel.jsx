@@ -16,7 +16,7 @@ function MainView() {
 
   return (
     <>
-      <main class={`webapp ${ showScreen() ? "actived" : "" }`}>
+      <main class={`webapp ${showScreen() ? "actived" : ""}`}>
         <section class="w-8/12 pr-2">
           <div class="pb-[20px] title title-format h-16">
             Admin Company Panel

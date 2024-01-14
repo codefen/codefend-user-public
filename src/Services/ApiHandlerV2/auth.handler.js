@@ -30,9 +30,9 @@ export class AuthService {
                 console.log({ decodedToken, userData });
 
 
+                return { userData, data }
             }
 
-            return data
 
 
         } catch (error) {
@@ -76,7 +76,7 @@ export class AuthService {
 
 
         } catch (error) {
-            if(error.response) {
+            if (error.response) {
                 const { data, status } = error.response
                 return { data, status }
             }

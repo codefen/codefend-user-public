@@ -1,4 +1,4 @@
-c; //Core packages
+//Core packages
 import { createSignal, createEffect, Show, For, onMount } from "solid-js";
 import "/src/flags.css";
 import ApiHandler from "../../../Services/apiHandler.jsx";
@@ -62,7 +62,7 @@ function InternalNetworksChart() {
       canRead: selectedUser().canRead,
     };
 
-    return ApiHandler.addUserCompany(requestBody)
+    return ApiHandler.addUserCompany(requestBody);
   };
 
   return (

@@ -15,10 +15,11 @@ import {
   FaRegularSquarePlus,
   FaRegularBuilding,
   FaSolidDatabase,
-  FaSolidSdCard
+  FaSolidSdCard,
 } from "solid-icons/fa";
 import { SiPowerautomate } from "solid-icons/si";
 import createUser from "../../Store/user.jsx";
+import { isUserAdmin } from "../../utils/helper.js";
 
 const isActiveLinkColor = (path) => {
   const pathName = history.location.pathname;
@@ -35,6 +36,28 @@ function Sidebar() {
   return (
     <>
       <aside class="sidebar">
+        <Show when={user() && isUserAdmin(user())}>
+          <a
+            title="Admin Company"
+            href="/admin/company"
+            class={isActiveLinkColor("/admin/company")}
+            onClick={() => {
+              history.push("/admin/company");
+            }}
+          >
+            <FaRegularBuilding />
+          </a>
+          <a
+            title="Admin Panel"
+            href="/admin/panel"
+            class={isActiveLinkColor("/admin/panel")}
+            onClick={() => {
+              history.push("/admin/panel");
+            }}
+          >
+            <FaRegularSquarePlus />
+          </a>
+        </Show>
         <a
           title="Dashboard"
           href="/dashboard"
@@ -99,7 +122,7 @@ function Sidebar() {
         >
           <FaSolidSdCard />
         </a>
-         
+
         <a
           title="Source Code"
           href="/source"
@@ -143,30 +166,6 @@ function Sidebar() {
         >
           <FaSolidMessage />
         </a>
-
-        <Show when={user() && user().admin}>
-          <a
-            title="Admin Panel"
-            href="/admin/panel"
-            class={isActiveLinkColor("/admin/panel")}
-            onClick={() => {
-              history.push("/admin/panel");
-            }}
-          >
-            <FaRegularSquarePlus />
-          </a>
-
-          <a
-            title="Admin Company"
-            href="/admin/company"
-            class={isActiveLinkColor("/admin/company")}
-            onClick={() => {
-              history.push("/admin/company");
-            }}
-          >
-            <FaRegularBuilding />
-          </a>
-        </Show>
 
         <a
           title="Preferences"

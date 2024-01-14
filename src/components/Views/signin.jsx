@@ -4,6 +4,7 @@ import history from "../../history.jsx";
 import { AuthService } from "../../Services/ApiHandlerV2";
 import { isSuccessResponse } from "../../Services/ApiHandlerV2/fetch.js";
 import createModal from "../../Store/modal.jsx";
+import { isUserAdmin } from "../../utils/helper.js";
 
 //Components
 const Logo = lazy(() => import("../Logo/logo.jsx"));
@@ -24,14 +25,17 @@ function MainView() {
     };
 
     AuthService.sessionHandler(requestParams)
-      .then((data) => {
-        console.log({ data });
+      .then(({ data, userData }) => {
+        console.log({ userData, data });
         const isSuccess = isSuccessResponse(data);
         console.log({ isSuccess });
         if (!isSuccess) {
           throw new Error("Error");
         }
-        history.push("/");
+
+        isUserAdmin(userData)
+          ? history.push("/admin/company")
+          : history.push("/");
       })
       .catch((error) => {
         console.log({ error });

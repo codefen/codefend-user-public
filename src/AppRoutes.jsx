@@ -1,6 +1,6 @@
 import { Route, Router, Routes } from "@solidjs/router";
 import { Toaster } from "solid-toast";
-import { Show } from "solid-js";
+import { Show, createEffect, onMount } from "solid-js";
 
 // components
 import InternalNetworkView from "./views/InternalNetworkView";
@@ -31,7 +31,7 @@ import createUser from "./Store/user";
 const { user } = createUser;
 
 const AppRoutes = () => {
-  const isAuthUserAdmin = user().admin;
+  const isAuthUserAdmin = user().access_role;
 
   return (
     <Suspense fallback={() => <Loader />}>

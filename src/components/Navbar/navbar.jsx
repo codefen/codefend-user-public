@@ -5,10 +5,10 @@ import { FaSolidPowerOff } from "solid-icons/fa";
 import createUser from "../../Store/user.jsx";
 import createModal from "../../Store/modal.jsx";
 import Logo from "../Logo/logo.jsx";
-import { clearAuth } from "../../utils/helper.js";
+import { clearAuth, isUserAdmin } from "../../utils/helper.js";
 
 const logOut = (e) => {
-  const { setUser } = createUser;
+  const { setUser, user } = createUser;
 
   e.preventDefault();
 
@@ -18,7 +18,7 @@ const logOut = (e) => {
 };
 const theme = () => {
   document.documentElement.classList.add("dark");
-}
+};
 
 function Navbar() {
   const { user, setUser } = createUser;
@@ -103,7 +103,11 @@ function Navbar() {
         <div class="flex items-center cursor-pointer">
           <a class="flex items-center">
             <span
-              onClick={() => history.push("/")}
+              onClick={() =>
+                isUserAdmin(user())
+                  ? history.push("/admin/company")
+                  : history.push("/")
+              }
               class="self-center text-2xl font-semibold whitespace-nowrap"
             >
               <Logo theme="aim" />

@@ -272,3 +272,8 @@ export const isEmptyData = (data) => {
     return Object.values(data).every(item => Boolean(item) == false || item == 0)
 
 }
+
+
+/** is Admin helper */
+
+export const isUserAdmin = (user) => user.access_role === 'admin'

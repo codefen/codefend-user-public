@@ -6,7 +6,7 @@ import { useParams } from "@solidjs/router";
 import ButtonLoader from "../ButtonLoader/buttonLoader.jsx";
 import jwt_decode from "jwt-decode";
 import history from "../../history.jsx";
-import { setAuth } from "../../utils/helper";
+import { isUserAdmin, setAuth } from "../../utils/helper";
 import createUser from "../../Store/user";
 const Logo = lazy(() => import("../Logo/logo.jsx"));
 
@@ -68,7 +68,10 @@ function SignUpFinish() {
         setAuth(response.data.session, userData);
         setUser(userData);
 
-        return history.push("/");
+        // return history.push("/");
+        return isUserAdmin(userData)
+          ? history.push("/admin/company")
+          : history.push("/");
       })
       .finally(() => {
         setIsLoading(false);

@@ -7,6 +7,7 @@ import { AiOutlineFileSearch } from "solid-icons/ai";
 import { FaSolidBug } from "solid-icons/fa";
 import { vdbColumnDef } from "../../Table/tableColumnDef.js";
 import Table from "../../Table/index.jsx";
+import toast from "solid-toast";
 
 function VdbSearchAndData() {
   const [searchData, setSearchData] = createSignal("");
@@ -45,9 +46,13 @@ function VdbSearchAndData() {
     })
       .then((res) => {
         // const vulns = Object.entries(res.data.result);
-        const vulns = res.data.result;
+        const vulns = res.data?.result;
         console.log({ vulns });
         if (vulns) setVdbData(vulns);
+        else {
+          const error = res.data?.response?.error;
+          if (error) toast.error(error.replace("API", ""));
+        }
       })
       .catch((err) => {
         console.log(err);
