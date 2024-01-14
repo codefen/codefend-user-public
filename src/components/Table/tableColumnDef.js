@@ -319,7 +319,7 @@ export const vdbColumnDef = [
         }
     ),
     columnHelper.accessor(
-        'risk_score',
+        row => row.vulnerability.risk.value,
         {
             id: 'score',
             header: 'score',
@@ -327,7 +327,7 @@ export const vdbColumnDef = [
         }
     ),
     columnHelper.accessor(
-        'risk',
+        row => row.vulnerability.risk.name,
         {
             id: 'risk',
             header: 'risk',

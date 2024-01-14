@@ -123,7 +123,7 @@ function VdbSearchAndData() {
         </Show>
       )}
       <Show when={!loading()} fallback={() => <PageLoader />}>
-        <div class="content">
+        {/* <div class="content">
           <For each={VdbData()}>
             {(vuln) => (
               <div class="search-result">
@@ -133,7 +133,7 @@ function VdbSearchAndData() {
               </div>
             )}
           </For>
-        </div>
+        </div> */}
       </Show>
     </>
   );

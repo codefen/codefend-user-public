@@ -1,11 +1,11 @@
 import { For, createSignal } from "solid-js";
 import createCompany from "../../../../Store/company";
 import CompanyCard from "./CompanyCard";
-import { ImArrowRight } from "solid-icons/im";
+import { TbArrowBigRight } from "solid-icons/tb";
 import "./CompanyIndexView.scss";
 
 const CompanyIndexView = () => {
-  const [companies, setCompanies] = createSignal([]);
+  const [companies, setCompanies] = createSignal([{}, {}, {}]);
   const [searchQuery, setSearchQuery] = createSignal("");
   const { companyStore, setCompanyStore } = createCompany;
 
@@ -44,7 +44,7 @@ const CompanyIndexView = () => {
             required
           />
           <div class="h-full flex  items-center absolute right-5">
-            <ImArrowRight class="text-[#ff3939] w-8 h-8" />
+            <TbArrowBigRight class="text-[#ff3939] w-8 h-8" />
           </div>
         </div>
       )}

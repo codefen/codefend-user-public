@@ -40,7 +40,7 @@ import Masonry from "react-masonry-css";
 //params:  breakpointCols={3},  className="my-masonry-grid",  columnClassName="my-masonry-grid_column"
 //clonacion
 
-const masonry = new Masonry(3, "my-masonry-grid", "my-masonry-grid_column");
+// const masonry = new Masonry(3, "my-masonry-grid", "my-masonry-grid_column");
 
 function MainView() {
   const [showScreen, setShowScreen] = createSignal(false);
@@ -62,9 +62,9 @@ function MainView() {
     <>
       <main class={`sb ${showScreen() ? "actived" : ""}`}>
         <section class="left">
-          <masonry>
-            <VdbSearchAndData />
-          </masonry>
+          {/* <masonry> */}
+          <VdbSearchAndData />
+          {/* </masonry> */}
         </section>
         <section class="right">
           <VdbPreviousSearches />
