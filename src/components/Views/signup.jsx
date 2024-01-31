@@ -298,7 +298,7 @@ function MainView() {
                     proceed
                   </button>
 
-                  <div class="mt-6 text-center ">
+                  <div class="mt-2 mb-2 text-center ">
                     <a
                       href="#"
                       onClick={() => {
